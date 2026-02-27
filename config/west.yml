@@ -9,6 +9,9 @@ manifest:
       # kyek / duckyb
     - name: duckyb
       url-base: https://github.com/duckyb
+      # personal fork (pin remap)
+    - name: daniel-locatelli
+      url-base: https://github.com/daniel-locatelli
       # nice-view-gem
     - name: m165437
       url-base: https://github.com/M165437
@@ -18,7 +21,7 @@ manifest:
       revision: v0.3.0
       import: app/west.yml
     - name: urchin-zmk-module
-      remote: duckyb
+      remote: daniel-locatelli
       revision: main
     - name: nice-view-gem
       remote: m165437
