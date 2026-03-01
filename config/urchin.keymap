@@ -94,8 +94,8 @@ ZMK_HOLD_TAP(hmr,
         //│  -       │   +      │  €       │  "       │  '       │     │  ;       │  (       │  {       │  [       │  <       │
             &kp MINUS  &kp PLUS  &kp RA(N5)  &kp DQT &apos_with_space   &kp SEMI   &kp LPAR   &kp LBRC   &kp LBKT   &kp LT
         //├──────────┼──────────┼──────────┼──────────┼──────────┤     ├──────────┼──────────┼──────────┼──────────┼──────────┤
-        //│  ~       │  `       │  \       │  |       │          │     │  :       │  )       │  }       │  ]       │  >       │
-            &kp TILDE  &kp GRAVE  &kp BSLH   &kp PIPE2  &none            &kp COLON  &kp RPAR   &kp RBRC   &kp RBKT   &kp GT
+        //│  ~       │  `       │  \       │  |       │  /       │     │  :       │  )       │  }       │  ]       │  >       │
+            &kp TILDE  &kp GRAVE  &kp BSLH   &kp PIPE2  &kp FSLH         &kp COLON  &kp RPAR   &kp RBRC   &kp RBKT   &kp GT
         //╰──────────┴──────────┴──────────┼──────────┼──────────┤     ├──────────┼──────────┼──────────┴──────────┴──────────╯
         //                                 │          │  ESCAPE  │     │          │          │
                                             &trans     &kp ESC          &trans     &trans
