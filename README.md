@@ -73,3 +73,57 @@ F-keys, mouse, media, and Bluetooth profile management.
                      │ BOOT │      │   │      │ BOOT │
                      ╰──────┴──────╯   ╰──────┴──────╯
 ```
+
+## Display — nice!view with nice-view-gem
+
+Both halves use [nice!view](https://nicekeyboards.com/docs/nice-view/getting-started/) displays running the [nice-view-gem](https://github.com/M165437/nice-view-gem) custom widget.
+
+### What each half shows
+
+- **Left (central):** Battery percentage, BLE profile status, active layer, and WPM chart. The dots at the bottom are BLE profile indicators (matching `BT 0`/`BT 1`/`BT 2` on the tri-layer), not switchable tabs.
+- **Right (peripheral):** A gem crystal animation (currently disabled via `CONFIG_NICE_VIEW_GEM_ANIMATION=n` to save battery). With animation off, it shows a static frame.
+
+### Display configuration (`config/urchin.conf`)
+
+| Setting | Value | Purpose |
+|---------|-------|---------|
+| `CONFIG_ZMK_DISPLAY` | `y` | Enable display |
+| `CONFIG_ZMK_DISPLAY_STATUS_SCREEN_CUSTOM` | `y` | Use nice-view-gem instead of the stock widget |
+| `CONFIG_NICE_VIEW_GEM_ANIMATION` | `n` | Disable peripheral animation (saves battery) |
+| `CONFIG_ZMK_WIDGET_BATTERY_STATUS_SHOW_PERCENTAGE` | `y` | Show battery as `%` instead of icon |
+| `CONFIG_ZMK_WIDGET_WPM_STATUS` | `n` | Disable WPM widget |
+
+### Creating a custom animation
+
+The nice-view-gem animation is 16 monochrome bitmap frames cycled by LVGL. Replacing it with a custom animation is straightforward — the challenge is the pixel art, not the code.
+
+**Frame specs:**
+- 16 frames, each 69 x 68 pixels
+- 1-bit color (black and white only, `LV_COLOR_FORMAT_I1`)
+- ~620 bytes per frame, stored as C byte arrays
+
+**Workflow to create a custom animation:**
+
+1. Design 16 frames (69x68px, monochrome) in a pixel art editor (Aseprite, Piskel, GIMP, etc.)
+2. Export each frame as a PNG
+3. Convert PNGs to C arrays using the [LVGL image converter](https://lvgl.io/tools/imageconverter) with format `I1` (1-bit indexed)
+4. Fork nice-view-gem and replace the frame data in `boards/shields/nice_view_gem/assets/crystal.c`
+5. Update `config/west.yml` to point to your fork
+6. Rebuild the firmware
+
+**Key files in nice-view-gem:**
+
+| File | Purpose |
+|------|---------|
+| `assets/crystal.c` | 16 frame bitmaps as C byte arrays |
+| `widgets/animation.c` | Animation playback logic (~30 lines) |
+| `widgets/screen_peripheral.c` | Peripheral screen layout, calls `draw_animation()` |
+| `Kconfig.defconfig` | Animation toggle, frame selection, and timing |
+
+**Animation Kconfig options:**
+
+| Option | Default | Description |
+|--------|---------|-------------|
+| `CONFIG_NICE_VIEW_GEM_ANIMATION` | `y` | Enable/disable animation |
+| `CONFIG_NICE_VIEW_GEM_ANIMATION_FRAME` | `0` | Static frame index (0-15) when animation is off |
+| `CONFIG_NICE_VIEW_GEM_ANIMATION_MS` | `960` | Total animation duration in ms (960ms / 16 frames = 60ms per frame) |
