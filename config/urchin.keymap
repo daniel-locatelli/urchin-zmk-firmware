@@ -24,7 +24,7 @@
 #define KEYS_R RT0 RT1 RT2 RT3 RT4 RM0 RM1 RM2 RM3 RM4 RB0 RB1 RB2 RB3 RB4
 #define THUMBS LH1 LH0 RH0 RH1 // Uses labels defined in 34.h
 
-/* Left-hand HRMs. */
+/* Left-hand HRMs (GACS order: GUI-Alt-Ctrl-Shift from pinky to index). */
 ZMK_HOLD_TAP(hml,
     flavor = "balanced";
     tapping-term-ms = <280>;
@@ -35,7 +35,7 @@ ZMK_HOLD_TAP(hml,
     hold-trigger-on-release;
 )
 
-/* Right-hand HRMs. */
+/* Right-hand HRMs (GACS order: GUI-Alt-Ctrl-Shift from pinky to index). */
 ZMK_HOLD_TAP(hmr,
     flavor = "balanced";
     tapping-term-ms = <280>;
@@ -51,15 +51,10 @@ ZMK_HOLD_TAP(hmr,
 
 / {
     behaviors {
-        dqt_with_space: macro_0 { // Node name: dqs_macro
+        apos_with_space: apos_macro {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
-            bindings = <&kp DQT &kp SPACE>; // Action: Press ", press space
-        };
-        apos_with_space: macro_1 { // Node name: dqs_macro
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&kp APOS &kp SPACE>; // Action: Press ", press space
+            bindings = <&kp APOS &kp SPACE>; // Action: Press ', press space
         };
     };
 
@@ -77,10 +72,10 @@ ZMK_HOLD_TAP(hmr,
             bindings = <
         //╭──────────┬──────────┬──────────┬──────────┬──────────╮     ╭──────────┬──────────┬──────────┬──────────┬──────────╮
         //│  Q       │  W       │  E       │  R       │  T       │     │  Y       │  U       │  I       │  O       │  P       │
-            &kp Q      &kp W      &kp E      &kp R      &kp T            &kp Y      &kp U     &kp I      &kp O      &kp P
+            &kp Q      &kp W      &kp E      &kp R      &kp T            &kp Y      &kp U      &kp I      &kp O      &kp P
         //├──────────┼──────────┼──────────┼──────────┼──────────┤     ├──────────┼──────────┼──────────┼──────────┼──────────┤
         //│  A       │  S       │  D       │  F       │  G       │     │  H       │  J       │  K       │  L       │ ' "      │
-         &hml LSHFT A &hml LALT S &hml LCTRL D &hml LGUI F   &kp G     &kp H      &hmr RGUI J &hmr RCTRL K &hmr RALT L &hmr RSHFT SQT
+         &hml LGUI A &hml LALT S &hml LCTRL D &hml LSHFT F  &kp G      &kp H    &hmr RSHFT J &hmr RCTRL K &hmr RALT L &hmr RGUI SQT
         //├──────────┼──────────┼──────────┼──────────┼──────────┤     ├──────────┼──────────┼──────────┼──────────┼──────────┤
         //│  Z       │  X       │  C       │  V       │  B       │     │  N       │  M       │ , <      │ . >      │ / ?      │
             &kp Z      &kp X      &kp C      &kp V      &kp B            &kp N      &kp M      &kp COMMA  &kp DOT    &kp FSLH
@@ -94,13 +89,13 @@ ZMK_HOLD_TAP(hmr,
             bindings = <
         //╭──────────┬──────────┬──────────┬──────────┬──────────╮     ╭──────────┬──────────┬──────────┬──────────┬──────────╮
         //│  !       │  @       │  #       │  $       │  %       │     │  ^       │  &       │  *       │  _       │  =       │
-            &kp EXCL  &kp AT     &kp POUND  &kp DLLR   &kp PRCNT        &kp CARET  &kp AMPS   &kp STAR   &kp UNDER  &kp EQUAL
+            &kp EXCL   &kp AT     &kp POUND  &kp DLLR   &kp PRCNT        &kp CARET  &kp AMPS   &kp STAR   &kp UNDER  &kp EQUAL
         //├──────────┼──────────┼──────────┼──────────┼──────────┤     ├──────────┼──────────┼──────────┼──────────┼──────────┤
-        //│  -       │   +      │  €       │  "       │  '       │     │  \       │      {   │  }       │  ;       │  :       │
-&hml LSHFT MINUS &hml LALT PLUS &hml LCTRL RA(N5) &hml LGUI DQT &apos_with_space   &kp BSLH &hmr RGUI LBRC &hmr RCTRL RBRC &hmr RALT SEMI &hmr RSHFT COLON
+        //│  -       │   +      │  €       │  "       │  '       │     │  ;       │  (       │  {       │  [       │  <       │
+            &kp MINUS  &kp PLUS  &kp RA(N5)  &kp DQT &apos_with_space   &kp SEMI   &kp LPAR   &kp LBRC   &kp LBKT   &kp LT
         //├──────────┼──────────┼──────────┼──────────┼──────────┤     ├──────────┼──────────┼──────────┼──────────┼──────────┤
-        //│  ~       │  |       │  <       │  >       │  `       │     │  /       │  (       │  )       │  [       │  ]       │
-           &kp TILDE  &kp PIPE2  &kp LT     &kp GT     &kp GRAVE        &kp FSLH   &kp LPAR   &kp RPAR   &kp LBKT   &kp RBKT
+        //│  ~       │  `       │  \       │  |       │          │     │  :       │  )       │  }       │  ]       │  >       │
+            &kp TILDE  &kp GRAVE  &kp BSLH   &kp PIPE2  &none            &kp COLON  &kp RPAR   &kp RBRC   &kp RBKT   &kp GT
         //╰──────────┴──────────┴──────────┼──────────┼──────────┤     ├──────────┼──────────┼──────────┴──────────┴──────────╯
         //                                 │          │  ESCAPE  │     │          │          │
                                             &trans     &kp ESC          &trans     &trans
@@ -111,14 +106,14 @@ ZMK_HOLD_TAP(hmr,
         left_layer {
             bindings = <
         //╭──────────┬──────────┬──────────┬──────────┬──────────╮     ╭──────────┬──────────┬──────────┬──────────┬──────────╮
-        //│PRINT SCRN│  7       │   8      │   9      │  000000  │     │          │          │ PREV     │ PLAY     │ NEXT     │
-           &kp PSCRN  &kp N7     &kp N8     &kp N9     &trans           &trans     &trans &kp C_PREV   &kp C_PP  &kp C_NEXT
+        //│  1       │  2       │  3       │  4       │  5       │     │  6       │  7       │  8       │  9       │  0       │
+           &kp N1     &kp N2     &kp N3     &kp N4     &kp N5           &kp N6     &kp N7     &kp N8     &kp N9     &kp N0
         //├──────────┼──────────┼──────────┼──────────┼──────────┤     ├──────────┼──────────┼──────────┼──────────┼──────────┤
-        //│CAPS LOCK │  4       │   5      │   6      │  000     │     │          │ LEFT     │ DOWN     │ UP       │ RIGHT    │
-    &hml LSHFT CAPS &hml LALT N4 &hml LCTRL N5 &hml LGUI N6  &trans     &trans &hmr RGUI LEFT &hmr RCTRL DOWN &hmr RALT UP &hmr RSHFT RIGHT
+        //│CAPS WORD │  .       │  UNDO    │  REDO    │  -       │     │  ESCAPE  │ LEFT     │ DOWN     │ UP       │ RIGHT    │
+           &caps_word &kp DOT    &kp LC(Z)  &kp LC(Y)  &kp MINUS        &kp ESC    &kp LEFT   &kp DOWN   &kp UP     &kp RIGHT
         //├──────────┼──────────┼──────────┼──────────┼──────────┤     ├──────────┼──────────┼──────────┼──────────┼──────────┤
-        //│  INSERT  │  1       │  2       │   3      │  0       │     │CONTE MENU│ HOME     │ PAGE DN  │ PAGE UP  │ END      │
-           &kp INS    &kp N1     &kp N2     &kp N3     &kp N0           &kp K_CMENU &kp HOME   &kp PG_DN &kp PG_UP  &kp END
+        //│  INSERT  │SELECT ALL│  CUT     │  COPY    │  PASTE   │     │CONTE MENU│ HOME     │ PAGE DN  │ PAGE UP  │ END      │
+           &kp INS    &kp LC(A)  &kp LC(X)  &kp LC(C)  &kp LC(V)        &kp K_CMENU &kp HOME  &kp PG_DN  &kp PG_UP  &kp END
         //╰──────────┴──────────┴──────────┼──────────┼──────────┤     ├──────────┼──────────┼──────────┴──────────┴──────────╯
         //                                 │          │          │     │          │  DELETE  │
                                              &trans     &trans          &trans     &kp DEL
@@ -133,10 +128,10 @@ ZMK_HOLD_TAP(hmr,
            &kp F9     &kp F10    &kp F11    &kp F12    &mkp RCLK     &kp C_BRI_DN &kp C_BRI_UP &kp C_MUTE &kp C_VOL_DN &kp C_VOL_UP
         //├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
         //│  F5      │  F6      │  F7      │   F8     │LEFT CLK  │   │ CLS WIND │MOUS LEFT │MOUS DOWN │ MOUS UP  │MOUS RIGHT│
-  &hml LSHFT F5 &hml LALT F6 &hml LCTRL F7 &hml LGUI F8 &mkp LCLK    &kp LC(F4) &hmr RGUI MOVE_LEFT &hmr RCTRL MOVE_DOWN &hmr RALT MOVE_UP &hmr RSHFT MOVE_RIGHT
+           &kp F5     &kp F6     &kp F7     &kp F8     &mkp LCLK     &kp LC(F4) &mmv MOVE_LEFT &mmv MOVE_DOWN &mmv MOVE_UP &mmv MOVE_RIGHT
         //├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
-        //│  F1      │  F2      │  F3      │  F4      │MIDDLE CLK│   | CLS TAB  │SCRL LEFT │SCRL DOWN │ SCRL UP  │SCRL RIGHT│
-           &kp F1     &kp F2     &kp F3     &kp F4     &mkp MCLK     &kp LA(F4) &msc SCRL_LEFT &msc SCRL_DOWN &msc SCRL_UP &msc SCRL_RIGHT
+        //│  F1      │  F2      │  F3      │  F4      │MIDDLE CLK│   │ CLS TAB  │  BT 0    │  BT 1    │  BT 2    │ BT CLR   │
+           &kp F1     &kp F2     &kp F3     &kp F4     &mkp MCLK     &kp LA(F4) &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_CLR
         //╰──────────┴──────────┴──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┴──────────┴──────────╯
         //                                 │BOOTLOADER│          │   │          │BOOTLOADER│
                                            &bootloader &trans        &trans     &bootloader
